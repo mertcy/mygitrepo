@@ -1,0 +1,15 @@
+network.request
+dmz-mailsec-scanner-1
+dmz-mailsec-scanner-2
+dmz-mailsec-scanner-3
+dmz-mailsec-scanner-4
+dmz-mailsec-scanner-5
+dmz-mailsec-scanner-6
+dmz-mailsec-scanner-7
+dmz-mailsec-scanner-8
+ns1
+ns2
+ns3
+ns4
+dns-admin
+host-master
