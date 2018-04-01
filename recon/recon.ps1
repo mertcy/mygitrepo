@@ -10,7 +10,7 @@
     .SYNOPSIS
     Information gathering with powershell recon tool
     .DESCRIPTION
-    This tool consists of whois, traceroute, dnslookup functions.
+    This tool consists of whois, traceroute, dnslookup, dnsmap functions.
     .EXAMPLE
     .\recon.ps1 <command> <domain>
     -------------------------------
