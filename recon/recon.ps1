@@ -3,7 +3,7 @@
 # Filename     :  recon.ps1 
 # Autor        :  Oguz Mert Caylar (https://github.com/oguzmertcaylar)
 # Description  :  Information gathering with powershell recon tool
-# Repository   :  https://github.com/oguzmertcaylar/recon
+# Repository   :  https://github.com/oguzmertcaylar/mygitrepo/recon
 ###############################################################################################################
 
 <#
@@ -19,7 +19,7 @@
 	.\recon.ps1 dnslookup mit.edu
 	.\recon.ps1 dnsmap mit.edu
     .LINK
-    
+    https://github.com/oguzmertcaylar/mygitrepo/tree/master/recon
 #>
 
 [CmdletBinding()]
