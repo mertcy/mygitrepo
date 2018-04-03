@@ -31,9 +31,10 @@ Param(
 function main {
 	$startTime = Get-Date
 	$report =  "information gathering with powershell recon tool report `r`n-------------------------------------------------------`n"
-	$report | Set-Content  "report.txt"
+	$reportFile = "report_$(get-date -f yyyy-MM-dd_HH_mm_ss).txt"
+	$report | Set-Content  $reportFile
 	$report =  "command: $command $domain `r`n-------------------------------------------------------`n"
-	$report | Add-Content "report.txt"
+	$report | Add-Content $reportFile
     	switch($command) {
         	"whois" { #starting who_is function
             		who_is $domain
@@ -52,20 +53,20 @@ function main {
 			exit
         	}
     	}
-	"-------------------------------------------------------`r`n" | Add-Content "report.txt"
+	"-------------------------------------------------------`r`n" | Add-Content $reportFile
 	$endTime = Get-Date
 	$runTime = $endTime - $startTime
-        "start time: $startTime`r`n" | Add-Content "report.txt"
-	"end time: $endTime`r`n" | Add-Content "report.txt"
+        "start time: $startTime`r`n" | Add-Content $reportFile
+	"end time: $endTime`r`n" | Add-Content $reportFile
         $runTime = 'duration: {0:ss} sec' -f $runTime
-        $runTime | Add-Content "report.txt"	
+        $runTime | Add-Content $reportFile	
 }
 
 function who_is($domain) {
 	$port = 43
  	$server = "whois.internic.net"
-	"port: $port `r" | Add-Content "report.txt"
-	"server: $server `r`n" | Add-Content "report.txt"
+	"port: $port `r" | Add-Content $reportFile
+	"server: $server `r`n" | Add-Content $reportFile
 
 	$socket = new-object Net.Sockets.TcpClient
 	$socket.Connect($server, $port)
@@ -88,7 +89,7 @@ function who_is($domain) {
                
                     		if($read -gt 0) {                        		
                         		Write-Host $encoding.GetString($buffer, 0, $read)
-					$encoding.GetString($buffer, 0, $read) | Add-Content "report.txt"
+					$encoding.GetString($buffer, 0, $read) | Add-Content $reportFile
 				}
                 	} catch { 
                     		
@@ -100,7 +101,7 @@ function who_is($domain) {
  
 	} else {
     		Write-Host "unable to connect!" -ForegroundColor Red
-		"unable to connect!" | Add-Content "report.txt"
+		"unable to connect!" | Add-Content $reportFile
 	}
 
 }
@@ -123,17 +124,17 @@ function trace_route($target) {
         	if($pingResult.Status -eq 'Success') {
 			$info = "traceroute to $target, $maxHops hops max, $messageLength byte packets`n`n"
             		Write-Host $info -ForegroundColor Green
-			$info | Add-Content "report.txt"
+			$info | Add-Content $reportFile
         	} else {
 			$info = "unable to trace target system $target!"
 			Write-Host $info -ForegroundColor Red
-			$info | Add-Content "report.txt"
+			$info | Add-Content $reportFile
 			exit
 		}
     	} catch {
 		$info = "unable to resolve target system $target!"
 		Write-Host $info -ForegroundColor Red
-		$info | Add-Content "report.txt"
+		$info | Add-Content $reportFile
         	exit
     	}
 
@@ -170,7 +171,7 @@ function trace_route($target) {
 		}
     	}
 	$ResultList
-	$ResultList | Add-Content "report.txt"
+	$ResultList | Add-Content $reportFile
 	Write-Host "trace complete!`n" -ForegroundColor Green
 }
 
@@ -181,13 +182,13 @@ function dns_look_up($domain) {
 		$ipHost = [System.Net.Dns]::GetHostByAddress($ip).HostName
 		$info = "`nIPv4 address for $domain"
     		Write-Host $info -ForegroundColor Green
-		$info | Add-Content "report.txt"
+		$info | Add-Content $reportFile
 		$info = "Domain Name Server: $ip `n"
     		Write-Host $info -ForegroundColor Green
-		$info | Add-Content "report.txt"
+		$info | Add-Content $reportFile
 		$info = "Domain Name: $ipHost `n"
     		Write-Host $info -ForegroundColor Green
-		$info | Add-Content "report.txt"
+		$info | Add-Content $reportFile
 	} catch {}
 }
 
@@ -210,7 +211,7 @@ function dns_map($domain) {
 			if($res -match $regex) {
         			$info = "found SOA record for subdomain $res in the dictionary!`n"
         			Write-Host $info -ForegroundColor Green
-				$info | Add-Content "report.txt"
+				$info | Add-Content $reportFile
     			}	
 		}
 
@@ -218,7 +219,7 @@ function dns_map($domain) {
 			if($res -match $regex) {
         			$info = "found MX record for subdomain $res in the dictionary!`n"
         			Write-Host $info -ForegroundColor Green
-				$info | Add-Content "report.txt"
+				$info | Add-Content $reportFile
     			}	
 		}
 
@@ -226,7 +227,7 @@ function dns_map($domain) {
 			if($res -match $regex) {
 				$info = "found NS record for subdomain $res in the dictionary!`n"
         			Write-Host $info -ForegroundColor Green
-				$info | Add-Content "report.txt"
+				$info | Add-Content $reportFile
     			}	
 		}
 	}
